@@ -1,33 +1,31 @@
-"""" Functions
 
-def Menu():
-    print("1. Encrypted Text")
-    print("2. Send SMS")
-    print("3. Quit")
-selection = int(input("Enter an Option:"))
-if selection == 1:
-    good()
-elif selection == 2:
-    bad()
-elif selection == 3:
-	exit
-else:
-	print("Invalid Option. Enter 1-3")
-	Menu()
-"""	
-
+import requests
+import socket
+from six.moves.urllib.parse import urlparse
+import threading
 from sys import exit
 import os
-from psk2 import passwd
-from psk2 import Email
-#from server_ftps import server
+import pickle
+import ftplib
+import csv
+import uuid
+#import en
+#from en import passwd
+#from en import Email
+#from psk2 import passwd
+#from psk2 import Email
+#import server_ftps
+#from server_ftps import server1
 #from server_ftps import RetrFile
+#from RetrFile import server_ftps
 import sys
 import BeautifulSoup
 import base64
 import os
 from googlevoice import Voice
-from googlevoice.util import input
+from util import input
+#from googlevoice import Voice
+#from googlevoice.util import input
 def Menu():
     os.system('cls')
     print("1. Encrypted Text")
@@ -36,6 +34,7 @@ def Menu():
     print("4. wget")
     print("5. cmd")
     print("6. SFTP server")
+    print("7. SFTPS Client")
     while True:
 		try:
 			menu = int(input("Enter your Choice: "))
@@ -51,11 +50,17 @@ def Menu():
 				break
 			elif menu ==4:
 				wget()
+				break
 			elif menu ==5:
 				cmd()
+				break
 			elif menu ==6:
-				RetrFile()
+				main()
+				break
 			elif menu == 7:
+				Ftps()
+				break
+			elif main == 8:
 				break
 			else:
 				print ("Invalid")
@@ -65,6 +70,89 @@ def Menu():
 			print ("Invalid Choice Enetr 1-4")
     exit		
 def SMS():
+#powershell -Command " wget htttp:\\example.com\p.e -OutFile p.pckl"
+	PATH = cwd = os.getcwd() + "\p.pckl"
+	print PATH
+	if os.path.isfile(PATH) and os.access(PATH, os.R_OK):
+		print "File exists and is readable"
+	else:
+
+		print "Either file is missing or is not readable"
+		dir = cwd = os.getcwd()
+		print (dir)
+		change = os.chdir(dir)
+		url = 'http:\\example.com\store.pckl -OutFile store.pckl"'
+		cmd = ('powershell -Command "')+'' + '' +'wget' + ' ' + url 
+		print(cmd)
+		os.system(cmd)
+		url = 'https:\\example.com\p.pckl -OutFile p.pckl"'
+		cmd = ('powershell -Command "')+'' + '' +'wget' + ' ' + url 
+		print(cmd)
+		os.system(cmd)
+
+	'''
+	url = 'https:\\example.com'
+	#url2 = 'https:\\example.com' 
+	target_path ='./'
+	r = requests.get(url)
+	with open("p.pckl",'wb') as f:
+			f.write(r.content)
+	url2 = 'https:\\example.com'		
+	target_path ='./'
+	r = requests.get(url2)
+	with open("store.pckl",'wb') as f:
+			f.write(r.content)
+			'''
+	key = 'abcdefghijklmnopqrstuvwxyz'
+	key2 = '123456789'
+	def encrypt(n, plaintext):
+		"""Encrypt the string and return the ciphertext"""
+		result = ''
+
+		for l in plaintext.lower():
+			try:
+				i = (key.index(l) + n) % 26
+				result += key[i]
+			except ValueError:
+				result += l
+
+		return result.lower()
+
+	def decrypt(n, ciphertext):
+		"""Decrypt the string and return the plaintext"""
+		result = ''
+
+		for l in ciphertext:
+			try:
+				i = (key.index(l) - n) % 26
+				result += key[i]
+			except ValueError:
+				result += l
+
+		return result
+
+	offset = 5
+	#print "File exists and is readable"
+	f = open('store.pckl', 'rb')               #read file
+	obj = pickle.load(f)                        #Email
+	#print 'obj',obj
+	f.close
+	#print 'test'
+		#Main()
+	decode2 = base64.b64decode(obj)
+
+	p = open('p.pckl', 'rb')                  #read file
+	obj7 = pickle.load(p)                     #password
+	p.close
+	#print ' test',obj7
+
+
+	decode = base64.b64decode(obj7)
+	Email = decrypt(offset, decode2)
+	#print('Decrypted:user', Email)
+	passwd = decrypt(offset, decode)
+	#print('Decrypted:pass', passwd)
+	#print 'ok'
 	while True:
 		os.system('cls')
 		n = raw_input("Please enter 'pass':")
@@ -73,10 +161,10 @@ def SMS():
 		 break
 	voice = Voice()
 	voice.login(Email,passwd)
-	number = "6467449809"
-	Ammi = "3477530782"
-	print ("1. Ammi")
-	print ("2. user")
+	number = ""
+	Ammi = ""
+	print ("1. user1")
+	print ("2. user2")
 	print ("3. show text")
 	phoneNumber = input('Enter your number : ')
 	os.system('cls')
@@ -252,24 +340,131 @@ def wget():
 	print(cmd)
 	os.system(cmd)
 	Menu()
+
 def cmd():
 	while True:
-		print "create user"
-		print "remove user"
-		print "make user admin"
-		print "unadmin a user"
-		print "enable admin account/disable"
-		print "net localgroup Administrators Tom /add"
-		print "net user /add [username] [password]"
-		cwd = os.getcwd()
-		a = ('powershell -Command "Start-Process cmd -Verb RunAs"')
-		cmd = raw_input(cwd +'>')
-		os.system(cmd + a)
-		print ('exit')
-		Menu()
-		break
-		Menu()
+			os.system('cls')
+			#print "create user"
+			#print "remove user"
+			#print "make user admin"
+			#print "unadmin a user"
+			#print "enable admin account/disable"
+			#print "net localgroup Administrators Tom /add"
+			print "net user /add [username] [password]"
+			cwd = os.getcwd()
+			a = ('powershell -Command "Start-Process cmd -Verb RunAs"')
+			cmd = raw_input(cwd +'>')
+			os.system(cmd + a)
+			os.system(cmd)
+			anyThing8 = int(input("Enter anything to return to man men222u: "))
+			if anyThing8 == 1:
+			   print ('OK')
+			elif anyThing8 ==4:
+				print 'jack'
+			else:
+				print ('exit')
+				break
+		
+		
+		
+		
+		
+		
+def server1 (name, sock):
+    filename = sock.recv(2024)
+    if os.path.isfile(filename):
+        sock.send("EXISTS " + str(os.path.getsize(filename)))
+        userResponse = sock.recv(2024)
+        if userResponse[:2] == 'OK':
+            with open(filename, 'rb') as f:
+                bytesToSend = f.read(2024)
+                sock.send(bytesToSend)
+                while bytesToSend != "":
+                    bytesToSend = f.read(2024)
+                    sock.send(bytesToSend)
+    else:
+        sock.send("ERR ")
+
+    sock.close()
+	
+def main():
+    host = raw_input('Enter ip: ')
+    port = 500
+
+
+    s = socket.socket()
+    s.bind((host,port))
+
+    s.listen(5)
+
+    print "Server Started."
+    while True:
+        c, addr = s.accept()
+        print "client connedted ip:<" + str(addr) + ">"
+        t = threading.Thread(target=server1, args=("RetrThread", c))
+        t.start()
+        anykey= raw_input("Enter anything to return to man menu: ")
+        if anykey == 10:
+			Menu()
+			break
+        elif anykey == 3:
+		    print "TEST"
+		    break
+        else:
+            Menu()
+		#Menu()
+    s.close()
+	#anykey= raw_input("Enter anything to return to man menu: ")
+
+#if __name__ == '__main__':
+    #main()
+#Menu()
 #return ManinMenu
+
+
+def Ftps():
+#def Main():
+    ip = raw_input('Enter IP address: ')
+    host = ip
+    port = 5000
+
+    s = socket.socket()
+    s.connect((host, port))
+    file = 'setup.py'
+    filename = raw_input("Filename? -> ")
+    if filename != 'q':
+        s.send(filename)
+        data = s.recv(2024)
+        if data[:6] == 'EXISTS':
+            filesize = long(data[6:])
+            message = raw_input("File exists, " + str(filesize) +"Bytes, download? (Y/N)? -> ")
+            if message == 'Y':
+                s.send("OK")
+                f = open('new_'+filename, 'wb')
+                data = s.recv(2024)
+                totalRecv = len(data)
+                f.write(data)
+                while totalRecv < filesize:
+                    data = s.recv(2024)
+                    totalRecv += len(data)
+                    f.write(data)
+                    print "{0:.2f}".format((totalRecv/float(filesize))*100)+ "% Done"
+                print "Download Complete!"
+                f.close()
+        else:
+            print "File Does Not Exist!"
+
+    s.close()
+
+#if __name__ == '__main__':
+ #   Main()
+
+
+
+
+
+
+
 Menu()
 	
 	
