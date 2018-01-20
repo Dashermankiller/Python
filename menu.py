@@ -1,4 +1,4 @@
-
+# The program will not work without the login information for that you will need to make p.pckl with pasword and store.pckl with Email login.
 import requests
 import socket
 from six.moves.urllib.parse import urlparse
